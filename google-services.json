@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "956185041344",
+    "project_id": "ussdchecker",
+    "storage_bucket": "ussdchecker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:956185041344:android:ec8681795ed0eac5919025",
+        "android_client_info": {
+          "package_name": "com.example.ussdcheker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "956185041344-a57l6k7s9ojegllpbbg3uqmsdvp5k8sm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbFyRCuZG_yyMk02naOykgYlboPwsMXtM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "956185041344-a57l6k7s9ojegllpbbg3uqmsdvp5k8sm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

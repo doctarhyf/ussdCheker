@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDItemListener {
 
 
+    private AdView mAdView;
     private static final String TAG = "TAG";
     RecyclerView rv;
     AdapterUSSD adapterUSSD;
@@ -34,14 +37,20 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
         setContentView(R.layout.activity_main);
 
 
-
-
         askPermissions();
 
         setupGUI();
 
+        loadAdMob();
 
 
+
+    }
+
+    private void loadAdMob() {
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     private void setupGUI() {

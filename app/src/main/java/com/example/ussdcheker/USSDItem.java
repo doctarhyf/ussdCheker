@@ -24,15 +24,38 @@ public class USSDItem {
 
         List<Pair<String, String>> pairs = new ArrayList<>();
 
-        pairs.add(0, new Pair<>("Africell check mega", "*111*100#"));
-        pairs.add(0, new Pair<>("Menu Mpesa", "*1122#"));
-        pairs.add(0, new Pair<>("Africell check unite", "*1000#"));
-        pairs.add(0, new Pair<>("Menu Orange", "*123#"));
+        pairs.add(new Pair<>("Africell check mega", "*111*100#"));
+        pairs.add(new Pair<>("Menu Mpesa", "*1122#"));
+        pairs.add(new Pair<>("Africell check unite", "*1000#"));
+        pairs.add(new Pair<>("Menu Orange", "*123#"));
 
 
+        ///////////////////// todo Remove after testing
+
+        pairs.add(new Pair<>("Africell check mega", "*111*100#"));
+        pairs.add(new Pair<>("Menu Mpesa", "*1122#"));
+        pairs.add(new Pair<>("Africell check unite", "*1000#"));
+        pairs.add(new Pair<>("Menu Orange", "*123#"));
+        pairs.add(new Pair<>("Africell check mega", "*111*100#"));
+        pairs.add(new Pair<>("Menu Mpesa", "*1122#"));
+        pairs.add(new Pair<>("Africell check unite", "*1000#"));
+        pairs.add(new Pair<>("Menu Orange", "*123#"));
+        pairs.add(new Pair<>("Africell check mega", "*111*100#"));
+        pairs.add(new Pair<>("Menu Mpesa", "*1122#"));
+        pairs.add(new Pair<>("Africell check unite", "*1000#"));
+        pairs.add(new Pair<>("Menu Orange", "*123#"));
+        pairs.add(new Pair<>("Africell check mega", "*111*100#"));
+        pairs.add(new Pair<>("Menu Mpesa", "*1122#"));
+        pairs.add(new Pair<>("Africell check unite", "*1000#"));
+        pairs.add(new Pair<>("Menu Orange", "*123#"));
+
+        /////////////////////
 
 
-        for (int i = 0; i < pairs.size(); i++){
+        int size = pairs.size();
+
+        for (int i = 0; i < size; i++){
+
 
             Pair<String, String> pair = pairs.get(i);
             ussdItems.add(new USSDItem(pair.first, pair.second));
