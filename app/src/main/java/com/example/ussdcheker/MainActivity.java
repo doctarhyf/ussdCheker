@@ -38,6 +38,13 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
 
         askPermissions();
 
+        setupGUI();
+
+
+
+    }
+
+    private void setupGUI() {
         rv = findViewById(R.id.rv);
 
 
@@ -46,9 +53,6 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
         rv.setAdapter(adapterUSSD);
         rv.setLayoutManager(new LinearLayoutManager(this));
         adapterUSSD.notifyDataSetChanged();
-
-
-
     }
 
     private void askPermissions() {
