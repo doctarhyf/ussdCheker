@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
         //TextView textView = (TextView) view;
         String ussd = ussdItem.getUssd();
 
-        Uri phoneCallUri = Uri.parse("tel:" + ussd);
+        Uri phoneCallUri = Uri.parse("tel:" + ussd.replace("#", "%23"));
 
         Intent phoneCallIntent = new Intent(Intent.ACTION_CALL);
         phoneCallIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

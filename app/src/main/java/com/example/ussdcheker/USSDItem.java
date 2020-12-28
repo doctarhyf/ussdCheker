@@ -24,10 +24,10 @@ public class USSDItem {
 
         List<Pair<String, String>> pairs = new ArrayList<>();
 
-        pairs.add(0, new Pair<>("Africell check mega", "*111*100%23"));
-        pairs.add(0, new Pair<>("Menu Mpesa", "*1122%23"));
-        pairs.add(0, new Pair<>("Africell check unite", "*1000%23"));
-        pairs.add(0, new Pair<>("Menu Orange", "*123%23"));
+        pairs.add(0, new Pair<>("Africell check mega", "*111*100#"));
+        pairs.add(0, new Pair<>("Menu Mpesa", "*1122#"));
+        pairs.add(0, new Pair<>("Africell check unite", "*1000#"));
+        pairs.add(0, new Pair<>("Menu Orange", "*123#"));
 
 
         for (int i = 0; i < pairs.size(); i++){
