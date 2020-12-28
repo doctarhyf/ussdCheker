@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/pad_4"
+    android:layout_marginBottom="@dimen/marg_1"
+    android:background="#eee"
+
+    >
+
+
+    <ImageView
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/iv"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@android:drawable/btn_radio"/>
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Police Station"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@id/iv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvUSSD"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="0828535960,0905097751"
+        android:textColor="@color/colorPrimary"
+        android:text="phone"
+        app:layout_constraintLeft_toLeftOf="@id/tvDescription"
+        app:layout_constraintRight_toRightOf="@id/tvDescription"
+        app:layout_constraintTop_toBottomOf="@id/tvDescription" />
+
+    <!--<TextView
+        android:id="@+id/tvPoliceStationAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="0828535960,0905097751"
+        android:textColor="@color/colorAccent"
+        android:text="Address"
+        app:layout_constraintLeft_toLeftOf="@id/tvPoliceStationName"
+        app:layout_constraintRight_toRightOf="@id/tvPoliceStationName"
+        app:layout_constraintTop_toBottomOf="@id/tvPoliceStationPhones" />-->
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
