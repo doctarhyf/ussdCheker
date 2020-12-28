@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.widget.TextView;
 
 import com.tbruyelle.rxpermissions3.RxPermissions;
@@ -66,6 +67,14 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
                 });
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        return true;
     }
 
     @Override
