@@ -20,6 +20,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 
 import java.util.ArrayList;
@@ -28,6 +34,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDItemListener {
 
 
+    private String uid = "auth id";
     private AdView mAdView;
     private static final String TAG = "TAG";
     RecyclerView rv;
@@ -36,13 +43,12 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
     String[] perms = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.SYSTEM_ALERT_WINDOW,
             Manifest.permission.CALL_PHONE};
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
 
         askPermissions();
@@ -70,11 +76,51 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
     private void loadData() {
 
 
+        Task<QuerySnapshot> ref = db.collection(uid).get();
 
 
+        ref.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot querySnapshot) {
 
+                parseUSSDData(querySnapshot);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+        /*
         ussdItemList.addAll(USSDItem.GetDummyItems());
         adapterUSSD.notifyDataSetChanged();
+        */
+
+    }
+
+    private void parseUSSDData(QuerySnapshot querySnapshot) {
+        if (querySnapshot.size() > 0) {
+
+
+            ussdItemList.clear();
+
+            for (QueryDocumentSnapshot queryDocumentSnapshot : querySnapshot) {
+
+                USSDItem ussdItem = queryDocumentSnapshot.toObject(USSDItem.class);
+
+                ussdItemList.add(ussdItem);
+
+
+            }
+
+            adapterUSSD.notifyDataSetChanged();
+
+        } else {
+            Log.e(TAG, "onSuccess: NO USSD ");
+        }
     }
 
     private void askPermissions() {
@@ -131,9 +177,9 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_add_new_ussd:
-                showUSSDAddEditDialog(new USSDItem(), USSDItem.USSD_ITEM_DIALOG_OPERATION.ADD );
+                showUSSDAddEditDialog(new USSDItem(), USSDItem.USSD_ITEM_DIALOG_OPERATION.ADD);
                 break;
         }
 
@@ -158,15 +204,11 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
             title = "EDIT USSD";
             etDesc.setText(descriptionOld);
             etUSSD.setText(ussdOld);
-        }else{
+        } else {
+            mItem.setId(db.collection(uid).document().getId());
             etDesc.setHint(descriptionOld);
             etUSSD.setHint(ussdOld);
         }
-
-
-
-
-
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -206,6 +248,21 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
     }
 
     private void updateUSSDItem(USSDItem mItem) {
-        Log.e(TAG, "updateUSSDItem: " + mItem.toString() );
+        Log.e(TAG, "updateUSSDItem: " + mItem.toString());
+
+        db.collection(uid).document(mItem.getId()).set(mItem).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(MainActivity.this, "Added succesfully", Toast.LENGTH_LONG).show();
+                loadData();
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
     }
 }
