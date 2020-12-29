@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,11 +33,13 @@ import com.tbruyelle.rxpermissions3.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDItemListener {
 
 
-    private String uid = "auth id";
+    private static final String PREF_UNIQUE_ID = "PREF_UNIQUE_ID";
+    private String uniqueID = null;
     private AdView mAdView;
     private static final String TAG = "TAG";
     RecyclerView rv;
@@ -53,10 +57,30 @@ TextView tvLoading;
         setContentView(R.layout.activity_main);
 
 
+        loadUID();
         askPermissions();
         setupGUI();
         loadData();
         loadAdMob();
+
+    }
+
+    private void loadUID() {
+
+
+
+            if (uniqueID == null) {
+                SharedPreferences sharedPrefs = getSharedPreferences(
+                        PREF_UNIQUE_ID, Context.MODE_PRIVATE);
+                uniqueID = sharedPrefs.getString(PREF_UNIQUE_ID, null);
+                if (uniqueID == null) {
+                    uniqueID = UUID.randomUUID().toString();
+                    SharedPreferences.Editor editor = sharedPrefs.edit();
+                    editor.putString(PREF_UNIQUE_ID, uniqueID);
+                    editor.commit();
+                }
+            }
+
 
     }
 
@@ -80,7 +104,7 @@ TextView tvLoading;
     private void loadData() {
 
 
-        Task<QuerySnapshot> ref = db.collection(uid).get();
+        Task<QuerySnapshot> ref = db.collection(uniqueID).get();
 
 
         ref.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -210,7 +234,7 @@ TextView tvLoading;
             etDesc.setText(descriptionOld);
             etUSSD.setText(ussdOld);
         } else {
-            mItem.setId(db.collection(uid).document().getId());
+            mItem.setId(db.collection(uniqueID).document().getId());
             etDesc.setHint(descriptionOld);
             etUSSD.setHint(ussdOld);
         }
@@ -255,7 +279,7 @@ TextView tvLoading;
     private void updateUSSDItem(USSDItem mItem) {
         Log.e(TAG, "updateUSSDItem: " + mItem.toString());
 
-        db.collection(uid).document(mItem.getId()).set(mItem).addOnSuccessListener(new OnSuccessListener<Void>() {
+        db.collection(uniqueID).document(mItem.getId()).set(mItem).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(MainActivity.this, "Added succesfully", Toast.LENGTH_LONG).show();
