@@ -1,16 +1,22 @@
 package com.example.ussdcheker;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.widget.TextView;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -36,14 +42,10 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         askPermissions();
-
         setupGUI();
-
+        loadData();
         loadAdMob();
-
-
 
     }
 
@@ -55,12 +57,15 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
 
     private void setupGUI() {
         rv = findViewById(R.id.rv);
-
-
-        ussdItemList.addAll(USSDItem.GetDummyItems());
         adapterUSSD = new AdapterUSSD(this, ussdItemList, this);
         rv.setAdapter(adapterUSSD);
         rv.setLayoutManager(new LinearLayoutManager(this));
+
+
+    }
+
+    private void loadData() {
+        ussdItemList.addAll(USSDItem.GetDummyItems());
         adapterUSSD.notifyDataSetChanged();
     }
 
@@ -92,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
 
     @Override
     public void onUSSDItemListener(USSDItem ussdItem) {
-        Log.e(TAG, "onUSSDItemListener: " );
+        Log.e(TAG, "onUSSDItemListener: ");
 
         //TextView textView = (TextView) view;
         String ussd = ussdItem.getUssd();
@@ -105,5 +110,87 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
 
         startActivity(phoneCallIntent);
 
+    }
+
+    @Override
+    public void onUSSDItemEditClicked(USSDItem mItem, USSDItem.USSD_ITEM_DIALOG_OPERATION operation) {
+
+
+        showUSSDAddEditDialog(mItem, operation);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.action_add_new_ussd:
+                showUSSDAddEditDialog(new USSDItem(), USSDItem.USSD_ITEM_DIALOG_OPERATION.ADD );
+                break;
+        }
+
+        return true;
+    }
+
+    private void showUSSDAddEditDialog(USSDItem mItem, USSDItem.USSD_ITEM_DIALOG_OPERATION operation) {
+
+        String descriptionOld = mItem.getDescription();
+        String ussdOld = mItem.getUssd();
+        //String id = mItem.getId();
+
+        String title = "ADD NEW USSD";
+
+        if (operation == USSDItem.USSD_ITEM_DIALOG_OPERATION.EDIT) {
+            title = "EDIT USSD";
+        }
+
+        View view = getLayoutInflater().inflate(R.layout.dialog_add_delete_ussd, null);
+
+        EditText etDesc = view.findViewById(R.id.etDesc);
+        EditText etUSSD = view.findViewById(R.id.etUSSD);
+
+
+        etDesc.setText(descriptionOld);
+        etUSSD.setText(ussdOld);
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setView(view);
+
+        builder.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.e(TAG, "onClick: save ussd");
+
+
+                String descriptionNew = etDesc.getText().toString();
+                String ussdNew = etUSSD.getText().toString();
+
+
+                if (descriptionNew.isEmpty() && ussdNew.isEmpty()) {
+
+                    Toast.makeText(MainActivity.this, "Fields cant be empty", Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    mItem.setDescription(descriptionNew);
+                    mItem.setUssd(ussdNew);
+
+                    updateUSSDItem(mItem);
+
+                }
+
+            }
+        });
+
+        builder.setNeutralButton("CANCEL", null);
+
+        builder.show();
+
+    }
+
+    private void updateUSSDItem(USSDItem mItem) {
+        Log.e(TAG, "updateUSSDItem: " + mItem.toString() );
     }
 }

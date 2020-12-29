@@ -7,11 +7,33 @@ import java.util.List;
 
 public class USSDItem {
 
-    private String description;
-    private String ussd;
+    private String description = "ex: Africel Mega check";
+    private String ussd = "*111*100#";
+    private String id = "no_id";
 
     USSDItem(){
 
+    }
+
+    @Override
+    public String toString() {
+        return "USSDItem{" +
+                "description='" + description + '\'' +
+                ", ussd='" + ussd + '\'' +
+                ", id='" + id + '\'' +
+                '}';
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public enum USSD_ITEM_DIALOG_OPERATION {
+        ADD, EDIT
     }
 
     public USSDItem(String description, String ussd) {

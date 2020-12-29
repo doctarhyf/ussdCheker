@@ -2,7 +2,10 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Add"
+    <item
+
+        android:id="@+id/action_add_new_ussd"
+        android:title="Add New USSD"
         app:showAsAction="always"
         android:icon="@android:drawable/ic_menu_add"
         />
