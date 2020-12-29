@@ -1,4 +1,4 @@
-package com.example.ussdcheker;
+package com.doctarhyf.ussdcheker;
 
 import org.junit.Test;
 

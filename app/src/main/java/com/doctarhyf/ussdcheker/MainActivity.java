@@ -1,4 +1,4 @@
-package com.example.ussdcheker;
+package com.doctarhyf.ussdcheker;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
