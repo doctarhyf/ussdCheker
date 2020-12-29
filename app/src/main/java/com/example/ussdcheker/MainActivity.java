@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
             Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.SYSTEM_ALERT_WINDOW,
             Manifest.permission.CALL_PHONE};
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+TextView tvLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
     }
 
     private void setupGUI() {
+
+        tvLoading = findViewById(R.id.tvLoading);
         rv = findViewById(R.id.rv);
         adapterUSSD = new AdapterUSSD(this, ussdItemList, this);
         rv.setAdapter(adapterUSSD);
@@ -105,21 +109,22 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
         if (querySnapshot.size() > 0) {
 
 
-            ussdItemList.clear();
+            tvLoading.setVisibility(View.GONE);
 
+            ussdItemList.clear();
             for (QueryDocumentSnapshot queryDocumentSnapshot : querySnapshot) {
 
                 USSDItem ussdItem = queryDocumentSnapshot.toObject(USSDItem.class);
-
                 ussdItemList.add(ussdItem);
-
 
             }
 
             adapterUSSD.notifyDataSetChanged();
 
         } else {
-            Log.e(TAG, "onSuccess: NO USSD ");
+            tvLoading.setText("NO USSD");
+            Log.e(TAG, "onSuccess: NO USSD");
+            Toast.makeText(this, "NO USSD", Toast.LENGTH_LONG).show();
         }
     }
 
