@@ -42,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
+
         askPermissions();
         setupGUI();
         loadData();
@@ -65,6 +68,11 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
     }
 
     private void loadData() {
+
+
+
+
+
         ussdItemList.addAll(USSDItem.GetDummyItems());
         adapterUSSD.notifyDataSetChanged();
     }
