@@ -10,6 +10,20 @@ public class USSDItem {
     private String description = "ex: Africel Mega check";
     private String ussd = "*111*100#";
     private String id = "no_id";
+    private NETWORK network = NETWORK.VODACOM;
+
+    public NETWORK getNetwork() {
+        return network;
+    }
+
+    public void setNetwork(NETWORK network) {
+        this.network = network;
+    }
+
+
+    public static enum NETWORK {
+        AFRICELL, VODACOM, ORANGE, AIRTEL
+    }
 
     USSDItem(){
 

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
 
-
+    android:padding="@dimen/marg_12"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
     <TextView
+        android:textColor="@color/black"
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,6 +22,8 @@
         android:inputType="textPersonName" />
 
     <TextView
+
+        android:textColor="@color/black"
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,4 +35,44 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName" />
+
+    <TextView
+        android:textColor="@color/black"
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Network" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RadioButton
+            android:onClick="onNetworkRBClicked"
+            android:id="@+id/rbVodacom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="VODACOM" />
+
+        <RadioButton
+            android:onClick="onNetworkRBClicked"
+            android:id="@+id/rbAirtel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AIRTEL" />
+
+        <RadioButton
+            android:onClick="onNetworkRBClicked"
+            android:id="@+id/rbAfricell"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AFRICELL" />
+
+        <RadioButton
+            android:onClick="onNetworkRBClicked"
+            android:id="@+id/rbOrange"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ORANGE" />
+    </RadioGroup>
 </LinearLayout>

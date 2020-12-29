@@ -2,4 +2,5 @@
 <resources>
     <dimen name="pad_4">4dp</dimen>
     <dimen name="marg_1">1dp</dimen>
+    <dimen name="marg_12">12dp</dimen>
 </resources>

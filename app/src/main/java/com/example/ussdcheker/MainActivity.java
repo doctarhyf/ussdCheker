@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +50,8 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
             Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.SYSTEM_ALERT_WINDOW,
             Manifest.permission.CALL_PHONE};
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-TextView tvLoading;
+    TextView tvLoading;
+    private USSDItem.NETWORK currentItemNetwork = USSDItem.NETWORK.VODACOM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,19 +69,17 @@ TextView tvLoading;
 
     private void loadUID() {
 
-
-
+        if (uniqueID == null) {
+            SharedPreferences sharedPrefs = getSharedPreferences(
+                    PREF_UNIQUE_ID, Context.MODE_PRIVATE);
+            uniqueID = sharedPrefs.getString(PREF_UNIQUE_ID, null);
             if (uniqueID == null) {
-                SharedPreferences sharedPrefs = getSharedPreferences(
-                        PREF_UNIQUE_ID, Context.MODE_PRIVATE);
-                uniqueID = sharedPrefs.getString(PREF_UNIQUE_ID, null);
-                if (uniqueID == null) {
-                    uniqueID = UUID.randomUUID().toString();
-                    SharedPreferences.Editor editor = sharedPrefs.edit();
-                    editor.putString(PREF_UNIQUE_ID, uniqueID);
-                    editor.commit();
-                }
+                uniqueID = UUID.randomUUID().toString();
+                SharedPreferences.Editor editor = sharedPrefs.edit();
+                editor.putString(PREF_UNIQUE_ID, uniqueID);
+                editor.commit();
             }
+        }
 
 
     }
@@ -272,12 +272,38 @@ TextView tvLoading;
 
         builder.setNeutralButton("CANCEL", null);
 
+
+        USSDItem.NETWORK network = mItem.getNetwork();
+        RadioButton radioButton = view.findViewById(R.id.rbAfricell);
+
+        switch (network){
+            case AFRICELL:
+                radioButton = view.findViewById(R.id.rbAfricell);
+                break;
+
+            case VODACOM:
+                radioButton = view.findViewById(R.id.rbVodacom);
+                break;
+
+            case ORANGE:
+                radioButton = view.findViewById(R.id.rbOrange);
+                break;
+
+            case AIRTEL:
+                radioButton = view.findViewById(R.id.rbAirtel);
+                break;
+        }
+
+
+        radioButton.setChecked(true);
         builder.show();
 
     }
 
     private void updateUSSDItem(USSDItem mItem) {
         Log.e(TAG, "updateUSSDItem: " + mItem.toString());
+
+        mItem.setNetwork(currentItemNetwork);
 
         db.collection(uniqueID).document(mItem.getId()).set(mItem).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -292,6 +318,34 @@ TextView tvLoading;
                         Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
+
+    }
+
+    public void onNetworkRBClicked(View view) {
+
+        USSDItem.NETWORK network = USSDItem.NETWORK.VODACOM;
+        int id = view.getId();
+
+
+        switch (id){
+            case R.id.rbVodacom:
+                currentItemNetwork = USSDItem.NETWORK.VODACOM;
+                break;
+
+            case R.id.rbAirtel:
+                currentItemNetwork = USSDItem.NETWORK.AIRTEL;
+                break;
+
+            case R.id.rbAfricell:
+                currentItemNetwork = USSDItem.NETWORK.AFRICELL;
+                break;
+
+            case R.id.rbOrange:
+                currentItemNetwork = USSDItem.NETWORK.ORANGE;
+                break;
+        }
+
+
 
     }
 }

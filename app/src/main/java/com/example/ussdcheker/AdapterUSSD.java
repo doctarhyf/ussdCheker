@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +49,32 @@ public class AdapterUSSD extends RecyclerView.Adapter<AdapterUSSD.ViewHolder> {
         holder.tvUSSD.setText(ussd);
 
 
+        USSDItem.NETWORK network = holder.mItem.getNetwork();
+
+        int drawableID = R.drawable.vodacom;
+
+        switch (network){
+            case AIRTEL:
+                drawableID = R.drawable.airtel;
+                break;
+
+            case ORANGE:
+                drawableID = R.drawable.ic_orange;
+                break;
+
+            case VODACOM:
+                drawableID = R.drawable.vodacom;
+                break;
+
+            case AFRICELL:
+                drawableID = R.drawable.africell;
+                break;
+        }
+
+
+
+        holder.iv.setImageResource(drawableID);
+
         holder.ivEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +105,7 @@ public class AdapterUSSD extends RecyclerView.Adapter<AdapterUSSD.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView, ivEdit;
+        public final ImageView iv;
         public final TextView tvDescription, tvUSSD;
 
         public USSDItem mItem;
@@ -85,6 +113,7 @@ public class AdapterUSSD extends RecyclerView.Adapter<AdapterUSSD.ViewHolder> {
         public ViewHolder(View view) {
             super(view);
             mView = view;
+            iv = view.findViewById(R.id.iv);
             ivEdit = view.findViewById(R.id.ivEdit);
             tvDescription = view.findViewById(R.id.tvDescription);
             tvUSSD = view.findViewById(R.id.tvUSSD);
