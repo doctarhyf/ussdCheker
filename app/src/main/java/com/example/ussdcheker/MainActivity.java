@@ -134,6 +134,12 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
 
     private void showUSSDAddEditDialog(USSDItem mItem, USSDItem.USSD_ITEM_DIALOG_OPERATION operation) {
 
+
+        View view = getLayoutInflater().inflate(R.layout.dialog_add_delete_ussd, null);
+
+        EditText etDesc = view.findViewById(R.id.etDesc);
+        EditText etUSSD = view.findViewById(R.id.etUSSD);
+
         String descriptionOld = mItem.getDescription();
         String ussdOld = mItem.getUssd();
         //String id = mItem.getId();
@@ -142,16 +148,17 @@ public class MainActivity extends AppCompatActivity implements AdapterUSSD.USSDI
 
         if (operation == USSDItem.USSD_ITEM_DIALOG_OPERATION.EDIT) {
             title = "EDIT USSD";
+            etDesc.setText(descriptionOld);
+            etUSSD.setText(ussdOld);
+        }else{
+            etDesc.setHint(descriptionOld);
+            etUSSD.setHint(ussdOld);
         }
 
-        View view = getLayoutInflater().inflate(R.layout.dialog_add_delete_ussd, null);
-
-        EditText etDesc = view.findViewById(R.id.etDesc);
-        EditText etUSSD = view.findViewById(R.id.etUSSD);
 
 
-        etDesc.setText(descriptionOld);
-        etUSSD.setText(ussdOld);
+
+
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
